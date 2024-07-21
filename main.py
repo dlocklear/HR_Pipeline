@@ -9,6 +9,9 @@ output_file = os.path.abspath("data/transformed_Employee_data.csv")
 
 
 def main():
+    print(f"Input file: {input_file}")
+    print(f"Output file: {output_file}")
+
     # Extract
     print("Starting extraction...")
     spark_df = extract_data(input_file)
