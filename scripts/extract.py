@@ -4,7 +4,14 @@ from pyspark.sql import SparkSession
 
 def extract_data(file_path):
     # Initialize Spark session
-    spark = SparkSession.builder.appName("ETL Pipeline").getOrCreate()
+    spark = (
+        SparkSession.builder.appName("ETL Pipeline")
+        .config("spark.hadoop.fs.defaultFS", "file:///")
+        .config("spark.hadoop.fs.local.block.size", "67108864")
+        .config("spark.hadoop.io.file.buffer.size", "4096")
+        .config("spark.hadoop.fs.file.impl", "org.apache.hadoop.fs.LocalFileSystem")
+        .getOrCreate()
+    )
 
     # Load data from CSV using Pandas
     df = pd.read_csv(file_path)
