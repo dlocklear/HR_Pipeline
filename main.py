@@ -1,10 +1,11 @@
+import os
 from scripts.extract import extract_data
 from scripts.transform import transform_data
 from scripts.load import load_data
 
 # File paths
-input_file = "data/Employee_data.csv"
-output_file = "data/transformed_Employee_data.csv"
+input_file = os.path.abspath("data/Employee_data.csv")
+output_file = os.path.abspath("data/transformed_Employee_data.csv")
 
 
 def main():

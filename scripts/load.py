@@ -1,14 +1,22 @@
+import os
+import pandas as pd
+
+
 def load_data(spark_df, output_path):
-    # Write transformed data to a new CSV file
-    spark_df.write.csv(output_path, header=True, mode="overwrite")
+    # Convert Spark DataFrame to Pandas DataFrame
+    pandas_df = spark_df.toPandas()
+
+    # Ensure the directory exists
+    output_dir = os.path.dirname(output_path)
+    os.makedirs(output_dir, exist_ok=True)
+    print(f"Output directory: {output_dir}")
+
+    # Remove the file if it already exists
+    if os.path.exists(output_path):
+        print(f"Removing existing file: {output_path}")
+        os.remove(output_path)
+
+    # Write Pandas DataFrame to a new CSV file
+    print(f"Writing to file: {output_path}")
+    pandas_df.to_csv(output_path, index=False)
     print(f"Data written to {output_path}")
-    
-    # Uncomment and modify the following lines to write to a database
-    # from pyspark.sql import SaveMode
-    # spark_df.write.format('jdbc').options(
-    #     url='jdbc:mysql://localhost:3306/employees',
-    #     driver='com.mysql.cj.jdbc.Driver',
-    #     dbtable='employee_data',
-    #     user='root',
-    #     password='password'
-    # ).mode(SaveMode.Append).save()

@@ -1,7 +1,6 @@
 import pandas as pd
 from pyspark.sql import SparkSession
 
-
 def extract_data(file_path):
     # Initialize Spark session
     spark = (
@@ -12,6 +11,11 @@ def extract_data(file_path):
         .config("spark.hadoop.fs.file.impl", "org.apache.hadoop.fs.LocalFileSystem")
         .getOrCreate()
     )
+
+    # Print Spark configurations
+    print("Spark configurations:")
+    for item in spark.sparkContext.getConf().getAll():
+        print(item)
 
     # Load data from CSV using Pandas
     df = pd.read_csv(file_path)
